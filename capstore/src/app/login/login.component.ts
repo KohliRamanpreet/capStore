@@ -1,0 +1,56 @@
+import { Component, OnInit } from '@angular/core';
+import {User} from '../Model/User.model';
+import { CapstoreService } from '../service/capstore.service';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+})
+export class LoginComponent implements OnInit {
+  userDetail=new User();
+  role;
+  c=0;
+  confirmUser;
+  error=true;
+  constructor(private _capstoreService:CapstoreService , private _router:Router) { }
+
+  ngOnInit(): void {
+    localStorage.removeItem("customer");
+    localStorage.removeItem("merchant");
+    this.c=0;
+
+
+  }
+  onSubmit(form)
+  {
+  if(this.role=="Merchant")
+  {
+    console.log(this.userDetail);
+  this._capstoreService.registerMerchant(this.userDetail).subscribe(
+    (error) => {console.log(error);
+      if(error==null)
+      this.error=false;
+      else
+      this._capstoreService.setCurrentMerchant(error);
+     
+
+
+    });
+  }
+  else{
+    console.log(this.userDetail);
+    this._capstoreService.getCustomer(this.userDetail.email,this.userDetail.password).subscribe(
+    (error) => {console.log(error); if(error==null)
+      this.error=false;
+      else
+      {
+      this._capstoreService.setCurrentCustomer(error);
+      this._router.navigate(['\homepage']);
+      }
+     
+      }  );
+  }
+}
+}

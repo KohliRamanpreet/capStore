@@ -1,0 +1,117 @@
+
+
+ @import url('https://fonts.googleapis.com/css?family=Asap:500i');
+
+ .navbar {
+     background: black;
+ }
+ 
+ body {
+     margin: 0;
+     padding: 0;
+     font-family: 'Asap', sans-serif;
+     
+     
+ }
+ .loginbox {
+     width: 520px;
+    
+     box-sizing: border-box;
+     background: black;
+     color: #fff;
+     top: 60%;
+     left: 50%;
+     position: absolute;
+     transform: translate(-50%,-40%);
+     box-sizing: border-box;
+     padding: 30px 30px;
+     border-radius: 7%;
+ }
+ 
+ .avatar {
+     width: 100px;
+     height: 100px;
+     border-radius: 50%;
+     position: absolute;
+     top: -60px;
+     left: 190px;
+ }
+ .loginbox > h1 {
+     margin: 0;
+     padding: 0;
+     font-size: 25px;
+     text-align: center;
+ }
+ 
+ .loginbox > p {
+     margin: 0;
+     padding: 0;
+     font-weight: bold;
+     text-transform: capitalize;
+ }
+ 
+ 
+ 
+ .loginbox input[type="text"], input[type="password"],input[type="email"] ,input[type="number"]{
+     border: none;
+     border-bottom: 1px solid #fff;
+     outline: none;
+     background: transparent;
+     height:40px;
+     color: #fff;
+     font-size: 20px;
+     width: 100%;
+     margin-bottom: 25px;
+ }
+ .loginbox input[type="submit"] {
+     border: none;
+     outline: none;
+     height: 40px;
+     background:#ffa64d;
+     color: black;
+     font-size: 18px;
+     width: 50%;
+     text-align: center;
+     border-radius: 20px;
+     align-content: center;
+ }
+ 
+ .loginbox input[type="submit"]:hover:not([disabled]) {
+     cursor: pointer;
+     background:silver;
+     color:black; 
+     transition-timing-function: ease-in-out;
+ }
+ 
+ .loginbox a {
+     text-decoration: none;
+     font-size: 12px;
+     line-height: 20px;
+     color: darkgrey;
+ }
+ 
+ .loginbox a:hover:not([disabled]) {
+     color: #FFC107;
+     transition: 1s;
+ }
+ a
+ {
+    text-decoration: none;
+    font-size: 20px;
+    line-height: 20px;
+    color: darkgrey;
+ }
+ a:hover
+ {
+    color: #FFC107;
+    transition: 1s;
+ }
+ .footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color:black;
+    color: white;
+    text-align: center;
+ }
