@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../Model/User.model';
+import { Product } from '../Model/Product.model';
+import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,14 +19,18 @@ private loggedInStatus=JSON.parse(localStorage.getItem('loggedIn')||'false');
   public registerMerchant(merchant:Object):Observable<any>{
     return this.http.post(this.baseUrl+'/registerMerchant', merchant);
   }
-  get isLoggedIn()
+ get isLoggedIn()
   {
 return JSON.parse(localStorage.getItem('loggedIn')|| this.loggedInStatus.toString());
-  }
-  setLoggedIn(value:boolean)
-  {
-    this.loggedInStatus=value;
+ }
+  setLoggedIn()
+  { this.loggedInStatus=true;
     localStorage.setItem('loggedIn','true');
+  }
+  getLoggedIn()
+  {
+    console.log(!!localStorage.getItem('loggedIn'));
+    return !!localStorage.getItem('loggedIn');
   }
   setCurrentCustomer(user){
     localStorage.setItem("customer", JSON.stringify(user));
@@ -37,6 +43,23 @@ getCurrentCustomer()
   setCurrentMerchant(user){
     localStorage.setItem("merchant", JSON.stringify(user));
   
+  }
+  setCurrentProductPage(page){
+    localStorage.setItem("product", JSON.stringify(page));
+  
+  }
+  getCurrentProductPage(){
+    return localStorage.getItem("product");
+  
+  }
+  getAllProduct():Observable<Product[]>
+  {
+   return this.http.get<Product[]>(this.baseUrl+'/allproducts');
+  }
+  getSpecificProduct(prod):Observable<Product[]>
+  {
+    console.log(JSON.parse(this.getCurrentProductPage()));
+   return this.http.get<Product[]>(this.baseUrl+'/productcategory/'+prod);
   }
 getCurrentMerchant()
   {
@@ -54,7 +77,8 @@ getCurrentMerchant()
       email: email,
       password: password
     }
-    return this.http.get(this.baseUrl+'/login', {params});
+   
+    return this.http.get(this.baseUrl+'/login', {params}).pipe(map(res => res));
 
   }
 getUserDetail()

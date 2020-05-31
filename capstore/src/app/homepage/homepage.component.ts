@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { HttpClientService, Product } from "../service/HttpClientService.service";
 import { Router } from "@angular/router";
+import { CapstoreService } from '../service/capstore.service';
 
 @Component({
   selector: "app-homepage",
@@ -20,9 +21,15 @@ export class HomepageComponent implements OnInit {
 
   constructor(
     private httpClientService: HttpClientService,
-    private route: Router
+    private route: Router,private _capstoreService:CapstoreService
   ) {}
-
+allProduct(event)
+{
+  console.log(event.target.innerHTML);
+  localStorage.removeItem("product");
+  this._capstoreService.setCurrentProductPage(event.target.innerHTML);
+  this.route.navigate(['/productpage']);
+}
   ngOnInit(): void {
     this.httpClientService.getAllProducts().subscribe((response) => {
       this.allProducts = response;

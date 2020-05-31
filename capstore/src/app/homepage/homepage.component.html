@@ -18,21 +18,17 @@
               <li><a [routerLink]="([''])">Orders</a></li>
               <li><a [routerLink]="([''])">Log out</a></li></ul>
             </div>
-          
             <ul class="nav navbar-nav">
-         <li><a (click)="openNav()"><b>☰ </b></a>  </li>   
-            
-         
-          
+         <li><a (click)="openNav()"><b>☰ </b></a>  </li>            
 <li class="dropdown">
     <button class="dropbtn">Catagories</button>
     <div class="dropdown-content">
-        <a href="#">All Products</a>
-      <a href="#">Men Wear</a>
-      <a href="#">Women Wear</a>
-      <a href="#">Men Shoes</a>
-      <a href="#">Women Shoes</a>
-      <a href="#">Electronics</a>
+      <a (click)="allProduct($event)">All Products</a>
+      <a (click)="allProduct($event)">Men Wear</a>
+      <a (click)="allProduct($event)">women wear</a>
+      <a (click)="allProduct($event)">Men Shoes</a>
+      <a (click)="allProduct($event)">Women Shoes</a>
+      <a (click)="allProduct($event)">Electronics</a>
 
     </div>
 </li>

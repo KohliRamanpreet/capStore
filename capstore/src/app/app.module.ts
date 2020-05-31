@@ -22,7 +22,7 @@ RoutingComponents
     HttpClientModule,
 
   ],
-  providers: [CapstoreService],
+  providers: [CapstoreService,AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

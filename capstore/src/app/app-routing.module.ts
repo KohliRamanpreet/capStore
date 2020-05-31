@@ -4,12 +4,16 @@ import {LoginComponent} from './login/login.component';
 import{SignupComponent} from './signup/signup.component';
 import { AuthGuard } from './guards/auth.guard';
 import {HomepageComponent} from './homepage/homepage.component';
+import { ProductPageComponent } from './ProductPage/productpage.component';
+
+
 
 
 const routes: Routes = [
   {path:'',component:LoginComponent},
   {path:'signup',component:SignupComponent},
-  {path:'homepage',component:HomepageComponent},
+  {path:'homepage',component:HomepageComponent,canActivate:[AuthGuard]},
+  {path:'productpage',component:ProductPageComponent,canActivate:[AuthGuard]},
 ];
 
 @NgModule({
@@ -17,4 +21,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-export const RoutingComponents=[LoginComponent,SignupComponent,HomepageComponent];
+export const RoutingComponents=[LoginComponent,SignupComponent,HomepageComponent,ProductPageComponent];

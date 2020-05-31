@@ -76,7 +76,7 @@
                 </small>
             </div>
        </div>
-        <div small class="text-danger" *ngIf="error==false" >Invalid Credential or User do not exist or Email is not verified</div>
+        <div small class="text-danger"  >{{error}}</div>
         <input type="submit" name="submit" value="Login" (click)="onSubmit(enForm)" [disabled]="enForm.form.invalid">
         <br>
         <a href="#">Forgot password?</a>

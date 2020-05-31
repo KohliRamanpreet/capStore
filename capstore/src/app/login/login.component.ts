@@ -13,13 +13,14 @@ export class LoginComponent implements OnInit {
   role;
   c=0;
   confirmUser;
-  error=true;
+  error;
   constructor(private _capstoreService:CapstoreService , private _router:Router) { }
 
   ngOnInit(): void {
     localStorage.removeItem("customer");
     localStorage.removeItem("merchant");
     this.c=0;
+    localStorage.removeItem('loggedIn');
 
 
   }
@@ -42,11 +43,15 @@ export class LoginComponent implements OnInit {
   else{
     console.log(this.userDetail);
     this._capstoreService.getCustomer(this.userDetail.email,this.userDetail.password).subscribe(
-    (error) => {console.log(error); if(error==null)
-      this.error=false;
+    (error) => {console.log(error);
+      console.log("hiii");
+       if(error.error=="true")
+      this.error=error.message;
       else
       {
-      this._capstoreService.setCurrentCustomer(error);
+        console.log(error.object);
+      this._capstoreService.setCurrentCustomer(error.object);
+      this._capstoreService.setLoggedIn();
       this._router.navigate(['\homepage']);
       }
      
