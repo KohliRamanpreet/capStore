@@ -11,7 +11,7 @@ public class UserAddress {
 
 	@Id
 	@Column(name = "address_id")
-	private int addressId; //(Primary Key)
+	private int addressId; 
 	@Column(name = "address_line1")
     private String address_line1;
 	@Column(name = "address_line2")

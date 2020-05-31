@@ -1,6 +1,4 @@
 package com.capstore.model;
-
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,13 +8,15 @@ import javax.persistence.Table;
 public class CommonFeedback {
 	@Id
 	@Column(name = "feedback_id")
-	private int feedbackId;  //(Primary Key)
+	private int feedbackId; 
 	@Column(name = "feedback_subject")
     private String feedbackSubject;
 	@Column(name = "feedback_message")
     private String feedbackMessage;
 	@Column(name = "user_id")
 	private int userId;
+	@Column(name="feedback")
+	private int feedbackForUserId;
     public int getFeedbackId() {
 		return feedbackId;
 	}
@@ -47,6 +47,6 @@ public class CommonFeedback {
 	public void setFeedbackForUserId(int feedbackForUserId) {
 		this.feedbackForUserId = feedbackForUserId;
 	}
-	private int feedbackForUserId;  //(Foreign Key)
+	
 	
 }

@@ -27,7 +27,7 @@ public class Order {
 	private double orderAmount;
 	
 	
-	@Column(name="order1_status")
+	@Column(name="order_status")
 	private String orderStatus;
 	
 	@ElementCollection

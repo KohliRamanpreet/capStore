@@ -1,8 +1,10 @@
 package com.capstore.repository;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import com.capstore.model.CustomerDetails;
+
+import com.capstore.model.MerchantDetails;
 @Repository
-public interface CustomerRepository extends CrudRepository<CustomerDetails, Integer> {
+public interface MerchantRepository extends CrudRepository<MerchantDetails, Integer> {
 
 }

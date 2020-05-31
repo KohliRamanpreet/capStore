@@ -21,9 +21,9 @@ public class Transaction {
     @Column(name = "transaction_money")
     private int transactionMoney;
     @Column(name = "transaction_method")
-    private String transactionMethod;  //(“Credit”,”Debit”,”UPI”,”Wallet”)
+    private String transactionMethod; 
     @Column(name = "transaction_status")
-    private String transactionStatus;   //(“Success”,”Fail”,”Pending”)
+    private String transactionStatus;   
     
 	public int getTransactionId() {
 		return transactionId;

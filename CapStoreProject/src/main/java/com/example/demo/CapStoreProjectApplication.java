@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScans;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories("com.capstore.repository")
 @EntityScan("com.capstore.model")
-@SpringBootApplication(scanBasePackages = {"com.capstore.controller","com.capstore,service"})
+@SpringBootApplication(scanBasePackages = {"com.capstore.controller","com.capstore.service","com.capstore.exception"})
 public class CapStoreProjectApplication {
 
 	public static void main(String[] args) {

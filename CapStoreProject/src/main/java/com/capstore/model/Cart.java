@@ -7,14 +7,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Cart1")
 public class Cart {
-
 	@Id
 	@Column(name = "cart_id")
-    private int cartId;   //(Primary Key)
+    private int cartId;  
 	@Column(name = "user_id")
-	private int userID;  //(references cust_id)
+	private int userID;  
 	@Column(name = "type")
-    private String type;  //(“Wishlist”,”cart”)
+    private String type;  
 	@Column(name = "product_id")
 	private int productId;
 	@Column(name = "product_quantity")

@@ -10,10 +10,10 @@ public class User{
 	@Id
 	@GeneratedValue(strategy  = GenerationType.AUTO)
 	@Column(name="user_id")
-	private int userId;  //( number auto generated): Primary Key
+	private int userId;  
     private String name;
-    private String username;  //(min: 3)
-	private String password;    //(min: 8)
+    private String username;  
+	private String password;   
 	private String email;
     private String role;           //(ROLE_CUSTOMER,ROLE_ADMIN,ROLE_MERCHANT)
     private boolean isActive;
