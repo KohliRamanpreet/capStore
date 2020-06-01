@@ -64,6 +64,7 @@ public class CustomerService implements CustomerServiceInterface {
 			if (cd1.isActive()) {
 				if (password.equals(PasswordProtector.decrypt(cd1.getPassword()))) {
 					obj.put("error", "false");
+					obj.put("message", null);
 					obj.put("object", cd1);
 					return ResponseEntity.ok().body(obj);
 				} else {
@@ -112,6 +113,31 @@ public class CustomerService implements CustomerServiceInterface {
 			emailSenderService.sendEmail(mailMessage);
 
 			return ResponseEntity.ok(HttpStatus.OK);
+		}
+	}
+
+	@Override
+	public ResponseEntity<?> forgotPassword(String email) throws Exception {
+		JSONObject obj=new JSONObject();
+		CustomerDetails cd = findCustomerByEmailIgnoreCase(email);
+		if (cd == null) {
+			throw new UserNotFoundException("This Email doest not Exist");
+		} else {
+			System.out.println("HI" + cd.getPassword());
+			System.out.println("SO" + PasswordProtector.decrypt(cd.getPassword()));
+			String pass=(PasswordProtector.decrypt(cd.getPassword()));
+			SimpleMailMessage mailMessage = new SimpleMailMessage();
+			mailMessage.setTo(cd.getEmail());
+			mailMessage.setSubject("CapStore Password Retrieval");
+			mailMessage.setFrom("ramanpreetkaur.official@gmail.com");
+			mailMessage.setText("Your password:"+ pass);
+
+			emailSenderService.sendEmail(mailMessage);
+
+			obj.put("error", "false");
+			obj.put("message", "Password has been sent to your email");
+			obj.put("object", null);
+			return ResponseEntity.ok().body(obj);
 		}
 	}
 

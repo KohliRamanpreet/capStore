@@ -7,6 +7,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Cart1")
 public class Cart {
+
 	@Id
 	@Column(name = "cart_id")
     private int cartId;  

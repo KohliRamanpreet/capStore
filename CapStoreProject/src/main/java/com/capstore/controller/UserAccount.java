@@ -110,11 +110,18 @@ public class UserAccount {
 		return productService.filterAndCategory(category, order);
 	}
 
+	@GetMapping("/forgotpassword/{email}")
+	public ResponseEntity<?> forgotPassword(@PathVariable("email") String email) throws Exception {
+		System.out.println("HIII");
+		return customerService.forgotPassword(email);
+	}
+
 	@ExceptionHandler(InvalidUserException.class)
 	public ResponseEntity<?> invalidUserErrorMessage(InvalidUserException unf) {
 		JSONObject obj = new JSONObject();
 		obj.put("error", "true");
 		obj.put("message", unf.getMessage());
+		obj.put("object", null);
 		return ResponseEntity.ok().body(obj);
 	}
 
@@ -123,6 +130,7 @@ public class UserAccount {
 		JSONObject obj = new JSONObject();
 		obj.put("error", "true");
 		obj.put("message", unf.getMessage());
+		obj.put("object", null);
 		return ResponseEntity.ok().body(obj);
 	}
 
@@ -131,6 +139,7 @@ public class UserAccount {
 		JSONObject obj = new JSONObject();
 		obj.put("error", "true");
 		obj.put("message", unf.getMessage());
+		obj.put("object", null);
 		return ResponseEntity.ok().body(obj);
 	}
 
@@ -139,6 +148,7 @@ public class UserAccount {
 		JSONObject obj = new JSONObject();
 		obj.put("error", "true");
 		obj.put("message", unf.getMessage());
+		obj.put("object", null);
 		return ResponseEntity.ok().body(obj);
 	}
 
