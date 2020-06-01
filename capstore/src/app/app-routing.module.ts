@@ -5,6 +5,7 @@ import{SignupComponent} from './signup/signup.component';
 import { AuthGuard } from './guards/auth.guard';
 import {HomepageComponent} from './homepage/homepage.component';
 import { ProductPageComponent } from './ProductPage/productpage.component';
+  import { ForgotPasswordComponent } from './forgotpassword/forgotpassword.component';
 
 
 
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path:'signup',component:SignupComponent},
   {path:'homepage',component:HomepageComponent,canActivate:[AuthGuard]},
   {path:'productpage',component:ProductPageComponent,canActivate:[AuthGuard]},
+  {path:'forgotpassword',component:ForgotPasswordComponent}
 ];
 
 @NgModule({
@@ -21,4 +23,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-export const RoutingComponents=[LoginComponent,SignupComponent,HomepageComponent,ProductPageComponent];
+export const RoutingComponents=[LoginComponent,SignupComponent,HomepageComponent,ProductPageComponent,ForgotPasswordComponent];

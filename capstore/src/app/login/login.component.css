@@ -10,12 +10,11 @@
      margin: 0;
      padding: 0;
      font-family: 'Asap', sans-serif;
-     
+     background-color:  #aaaaaa7c;
      
  }
  .loginbox {
      width: 520px;
-    
      box-sizing: border-box;
      background: black;
      color: #fff;
@@ -105,13 +104,4 @@
  {
     color: #FFC107;
     transition: 1s;
- }
- .footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background-color:black;
-    color: white;
-    text-align: center;
  }

@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   userDetail = new User();
-  data: Respond[];
+  data;
   role;
   error;
   constructor(private _capstoreService: CapstoreService, private _router: Router) { }
@@ -37,17 +37,15 @@ export class LoginComponent implements OnInit {
       this._capstoreService.getCustomer(this.userDetail.email, this.userDetail.password).subscribe(
         (error) => {
           console.log(error);
-          this.data = error;
-          for (let a of error) {
-            console.log("hiii");
-            if (a.error == "true")
-              this.error = a.message;
-            else {
-              console.log(a.object);
-              this._capstoreService.setCurrentCustomer(a.object);
-              this._capstoreService.setLoggedIn();
-              this._router.navigate(['\homepage']);
-            }
+          this.data = error.error;
+          if (this.data == "true")
+            this.error = error.message;
+          else {
+            console.log(error.object);
+            this._capstoreService.setCurrentCustomer(error.object);
+            this._capstoreService.setLoggedIn();
+            this._router.navigate(['\homepage']);
+
           }
         });
     }

@@ -3,8 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../Model/User.model';
 import { Product } from '../Model/Product.model';
-import { map } from 'rxjs/operators';
-import { Respond } from '../Model/Respond.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -54,14 +52,15 @@ export class CapstoreService {
   public registerMerchant(merchant: Object): Observable<any> {
     return this.http.post(this.baseUrl + '/registerMerchant', merchant);
   }
-  public getCustomer(email: any, password: any): Observable<Respond[]> {
+  public getCustomer(email: any, password: any) {
     const params = {
       email: email,
       password: password
     }
-
-    return this.http.get<Respond[]>(this.baseUrl + '/login', { params });
-
+    return this.http.get(this.baseUrl + '/login', { params });
+  }
+  public forgotPassword(email) {
+    return this.http.get(this.baseUrl + '/forgotpassword/' + email);
   }
   public getAllProduct(): Observable<Product[]> {
     return this.http.get<Product[]>(this.baseUrl + '/allproducts');
