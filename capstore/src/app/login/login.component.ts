@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {User} from '../Model/User.model';
+import { User } from '../Model/User.model';
+import { Respond } from '../Model/Respond.model';
 import { CapstoreService } from '../service/capstore.service';
 import { Router } from '@angular/router';
 
@@ -9,53 +10,46 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  userDetail=new User();
+  userDetail = new User();
+  data: Respond[];
   role;
-  c=0;
-  confirmUser;
   error;
-  constructor(private _capstoreService:CapstoreService , private _router:Router) { }
-
+  constructor(private _capstoreService: CapstoreService, private _router: Router) { }
   ngOnInit(): void {
     localStorage.removeItem("customer");
     localStorage.removeItem("merchant");
-    this.c=0;
     localStorage.removeItem('loggedIn');
-
-
   }
-  onSubmit(form)
-  {
-  if(this.role=="Merchant")
-  {
-    console.log(this.userDetail);
-  this._capstoreService.registerMerchant(this.userDetail).subscribe(
-    (error) => {console.log(error);
-      if(error==null)
-      this.error=false;
-      else
-      this._capstoreService.setCurrentMerchant(error);
-     
-
-
-    });
+  onSubmit(form) {
+    if (this.role == "Merchant") {
+      console.log(this.userDetail);
+      this._capstoreService.registerMerchant(this.userDetail).subscribe(
+        (error) => {
+          console.log(error);
+          if (error == null)
+            this.error = false;
+          else
+            this._capstoreService.setCurrentMerchant(error);
+        });
+    }
+    else {
+      console.log(this.userDetail);
+      this._capstoreService.getCustomer(this.userDetail.email, this.userDetail.password).subscribe(
+        (error) => {
+          console.log(error);
+          this.data = error;
+          for (let a of error) {
+            console.log("hiii");
+            if (a.error == "true")
+              this.error = a.message;
+            else {
+              console.log(a.object);
+              this._capstoreService.setCurrentCustomer(a.object);
+              this._capstoreService.setLoggedIn();
+              this._router.navigate(['\homepage']);
+            }
+          }
+        });
+    }
   }
-  else{
-    console.log(this.userDetail);
-    this._capstoreService.getCustomer(this.userDetail.email,this.userDetail.password).subscribe(
-    (error) => {console.log(error);
-      console.log("hiii");
-       if(error.error=="true")
-      this.error=error.message;
-      else
-      {
-        console.log(error.object);
-      this._capstoreService.setCurrentCustomer(error.object);
-      this._capstoreService.setLoggedIn();
-      this._router.navigate(['\homepage']);
-      }
-     
-      }  );
-  }
-}
 }

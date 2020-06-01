@@ -24,10 +24,10 @@
     <button class="dropbtn">Catagories</button>
     <div class="dropdown-content">
       <a (click)="allProduct($event)">All Products</a>
-      <a (click)="allProduct($event)">Men Wear</a>
+      <a (click)="allProduct($event)">men wear</a>
       <a (click)="allProduct($event)">women wear</a>
-      <a (click)="allProduct($event)">Men Shoes</a>
-      <a (click)="allProduct($event)">Women Shoes</a>
+      <a (click)="allProduct($event)">men shoes</a>
+      <a (click)="allProduct($event)">women Shoes</a>
       <a (click)="allProduct($event)">Electronics</a>
 
     </div>
@@ -35,9 +35,9 @@
 <li class="dropdown">
     <button class="dropbtn">Discount</button>
     <div class="dropdown-content">
-      <a href="#">10%</a>
-      <a href="#">20%</a>
-      <a href="#">30%</a>
+      <a (click)="allProduct($event)">10%</a>
+      <a (click)="allProduct($event)">20%</a>
+      <a (click)="allProduct($event)">30%</a>
     </div>
 </li>
 <li class="dropdown">
@@ -105,7 +105,7 @@
   <br>
   <div class="row" >
     <div class="col-md-1"></div>
-<div class="col-md-3"><img src="/assets/Images/img7.jpg" style="height: 100%;width: 100%;"></div>
+<div class="col-md-3"><a (click)="allProduct($event)"><img value="women wear" src="/assets/Images/img7.jpg" style="height: 100%;width: 100%;"></a></div>
 <div class="col-md-1"></div>
 <div class="col-md-3"><img src="/assets/Images/img8.jpg" style="height: 100%;width: 100%;"></div>
 <div class="col-md-1"></div>
