@@ -36,20 +36,8 @@ public class CustomerDetails extends User {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = UserAddress.class)
 	private Set<UserAddress> addresses;
 
-	public CustomerDetails(int userId, String name, String username, String password, String email, String role,
-			boolean isActive, String securityQuestion, String securityAnswer, String phoneNumber,
-			String alternatePhoneNumber, String alternateEmail, String address, Set<CommonFeedback> cCF,
-			Set<ProductFeedback> cPF, Set<Order> orders, Set<Cart> cC, Set<UserAddress> addresses) {
-		super(userId, name, username, password, email, role, isActive, securityQuestion, securityAnswer);
-		this.phoneNumber = phoneNumber;
-		this.alternatePhoneNumber = alternatePhoneNumber;
-		this.alternateEmail = alternateEmail;
-		this.address = address;
-		this.cCF = cCF;
-		this.cPF = cPF;
-		this.orders = orders;
-		this.cC = cC;
-		this.addresses = addresses;
+	public CustomerDetails() {
+
 	}
 
 	public String getPhoneNumber() {

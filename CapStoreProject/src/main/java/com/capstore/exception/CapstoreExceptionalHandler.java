@@ -14,4 +14,19 @@ public class CapstoreExceptionalHandler {
 		return obj;
 	}
 
+	@ExceptionHandler(InvalidUserException.class)
+	public JSONObject invalidUserErrorMessage(InvalidUserException unf) {
+		JSONObject obj = new JSONObject();
+		obj.put("error", "true");
+		obj.put("message", unf.getMessage());
+		return obj;
+	}
+
+	@ExceptionHandler(IncorrectPasswordException.class)
+	public JSONObject incorrectPasswordErrorMessage(IncorrectPasswordException unf) {
+		JSONObject obj = new JSONObject();
+		obj.put("error", "true");
+		obj.put("message", unf.getMessage());
+		return obj;
+	}
 }

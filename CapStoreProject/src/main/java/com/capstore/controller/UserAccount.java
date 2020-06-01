@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.capstore.exception.IncorrectPasswordException;
+import com.capstore.exception.InvalidUserException;
+import com.capstore.exception.UserAlreadyExistException;
 import com.capstore.exception.UserNotFoundException;
 import com.capstore.model.ConfirmationToken;
 import com.capstore.model.CustomerDetails;
@@ -42,150 +46,30 @@ public class UserAccount {
 	@Autowired
 	private CustomerRepository customerRepository;
 	@Autowired
-	private ConfirmationTokenRepository confirmationTokenRepository;
-	@Autowired
 	private EmailSenderService emailSenderService;
 	@Autowired
 	private MerchantServiceInterface merchantService;
-	@Autowired
-	private MerchantRepository merchantRepository;
 	@Autowired
 	private ProductServiceInterface productService;
 
 	@PostMapping("/registerCustomer")
 	public ResponseEntity<?> registerCustomer(@RequestBody CustomerDetails cd) throws Exception {
-		CustomerDetails existingCustomer = customerService.findCustomerByEmailIgnoreCase(cd.getEmail());
-		if (existingCustomer != null) {
-			return new ResponseEntity<Error>(HttpStatus.CONFLICT);
-		} else {
-			System.out.println("HIUIIIII" + cd.getPassword());
-			System.out.println("SOOOOOO" + PasswordProtector.encrypt(cd.getPassword()));
-			cd.setPassword(PasswordProtector.encrypt(cd.getPassword()));
-			cd.setAlternateEmail("hatt@gmail.com");
-			// cd.setName("rohan");
-			customerRepository.save(cd);
-			System.out.println("hello" + cd);
-			CustomerDetails cd1 = customerService.findCustomerByEmailIgnoreCase(cd.getEmail());
-
-			ConfirmationToken confirmationToken = new ConfirmationToken(cd.getUserId());
-
-			System.out.println("hiii" + confirmationToken.getConfirmationToken());
-			System.out.println("hiii" + confirmationToken.getTokenid());
-			System.out.println("hiii" + confirmationToken.getCreatedDate());
-			System.out.println("hiii" + confirmationToken);
-
-			confirmationTokenRepository.save(confirmationToken);
-
-			SimpleMailMessage mailMessage = new SimpleMailMessage();
-			mailMessage.setTo(cd.getEmail());
-			mailMessage.setSubject("Complete Registration!");
-			mailMessage.setFrom("ramanpreetkaur.official@gmail.com");
-			mailMessage.setText("To confirm your account, please click here : "
-					+ "http://localhost:8083/api1/confirm-account?token=" + confirmationToken.getConfirmationToken());
-
-			emailSenderService.sendEmail(mailMessage);
-
-			return ResponseEntity.ok(HttpStatus.OK);
-		}
+		return customerService.registerCustomer(cd);
 	}
 
 	@PostMapping("/registerMerchant")
-	public boolean registerMerchant(@RequestBody MerchantDetails md) {
-		// CustomerDetails cd=new CustomerDetails(); //htana
-		MerchantDetails existingCustomer = merchantService.findMerchantByEmailIgnoreCase(md.getEmail());
-		if (existingCustomer != null) {
-			return false;
-		} else {
-
-			// cd.setEmail(email); //htana
-			md.setAlternateEmail("hatt@gmail.com");
-			// cd.setName("rohan");
-			merchantRepository.save(md);
-			System.out.println("hello" + md);
-			CustomerDetails cd1 = customerService.findCustomerByEmailIgnoreCase(md.getEmail());
-
-			ConfirmationToken confirmationToken = new ConfirmationToken(md.getUserId());
-
-			System.out.println("hiii" + confirmationToken.getConfirmationToken());
-			System.out.println("hiii" + confirmationToken.getTokenid());
-			System.out.println("hiii" + confirmationToken.getCreatedDate());
-			System.out.println("hiii" + confirmationToken);
-
-			confirmationTokenRepository.save(confirmationToken);
-
-			SimpleMailMessage mailMessage = new SimpleMailMessage();
-			mailMessage.setTo(md.getEmail());
-			mailMessage.setSubject("Complete Registration!");
-			mailMessage.setFrom("ramanpreetkaur.official@gmail.com");
-			mailMessage.setText("To confirm your account, please click here : "
-					+ "http://localhost:8083/api1/confirm-account?token=" + confirmationToken.getConfirmationToken());
-
-			emailSenderService.sendEmail(mailMessage);
-
-			return true;
-		}
+	public ResponseEntity<?> registerMerchant(@RequestBody MerchantDetails md) throws Exception {
+		return merchantService.registerMerchant(md);
 	}
 
 	@RequestMapping(value = "/confirm-account", method = { RequestMethod.GET, RequestMethod.POST })
 	public boolean confirmUserAccount(@RequestParam("token") String confirmationToken) {
-
-		ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
-
-		if (token != null) {
-			if (customerService.findCustomerById(token.getUid()) != null) {
-				CustomerDetails cd = customerService.findCustomerById(token.getUid());
-				cd.setActive(true);
-				customerRepository.save(cd);
-				return true;
-			}
-
-			else if (merchantService.findMerchantById(token.getUid()) != null) {
-				MerchantDetails md = merchantService.findMerchantById(token.getUid());
-				md.setActive(true);
-				merchantRepository.save(md);
-				return true;
-			}
-
-			else
-				return false;
-		}
-
-		else {
-			System.out.println("done");
-			return false;
-		}
+		return emailSenderService.verifyEmail(confirmationToken);
 	}
 
 	@GetMapping("/login")
 	public ResponseEntity<?> fetchCustomer(@RequestParam String email, @RequestParam String password) throws Exception {
-		JSONObject obj = new JSONObject();
-		System.out.println("HIIIII" + customerService.findCustomerByEmailIgnoreCase(email));
-		CustomerDetails cd1 = customerService.findCustomerByEmailIgnoreCase(email);
-		if (cd1 != null) {
-			if (cd1.isActive()) {
-				if (password.equals(PasswordProtector.decrypt(cd1.getPassword()))) {
-					obj.put("error", "false");
-					obj.put("object", cd1);
-					return ResponseEntity.ok().body(obj);
-				} else {
-					obj.put("error", "true");
-					obj.put("message", "Incorrect password");
-					return ResponseEntity.ok().body(obj);
-				}
-			} else {
-				obj.put("error", "true");
-				obj.put("message", "Email not verified");
-				return ResponseEntity.ok().body(obj);
-			}
-			// return new ResponseEntity<>(
-			// "Email is not verified",
-			// HttpStatus.BAD_REQUEST);
-		} else {
-			//obj.put("error", "true");
-			//obj.put("message", "Email does not exist");
-			//return ResponseEntity.ok().body(obj);
-			throw new UserNotFoundException("No user exists with this Account Id");
-		}
+		return customerService.loginCustomer(email, password);
 	}
 
 	@RequestMapping("/deletecustomer/{a}")
@@ -210,7 +94,7 @@ public class UserAccount {
 	}
 
 	// Product data based on discount
-	@GetMapping(value = "/discountCategory/{discountPercent}")
+	@GetMapping(value = "/discountcategory/{discountPercent}")
 	public List<Product> getDiscountProducts(@PathVariable("discountPercent") Integer discount) {
 
 		return productService.specificDiscountProducts(discount);
@@ -225,11 +109,37 @@ public class UserAccount {
 	public List<Product> filterandcategory(@PathVariable String category, @PathVariable String order) {
 		return productService.filterAndCategory(category, order);
 	}
-	
-	  @ExceptionHandler(UserNotFoundException.class) 
-	  public JSONObject noUserErrorMessage(UserNotFoundException unf) { JSONObject obj = new
-	  JSONObject(); obj.put("error", "true"); obj.put("message", unf.getMessage());
-	  return obj; }
-	 
+
+	@ExceptionHandler(InvalidUserException.class)
+	public ResponseEntity<?> invalidUserErrorMessage(InvalidUserException unf) {
+		JSONObject obj = new JSONObject();
+		obj.put("error", "true");
+		obj.put("message", unf.getMessage());
+		return ResponseEntity.ok().body(obj);
+	}
+
+	@ExceptionHandler(IncorrectPasswordException.class)
+	public ResponseEntity<?> incorrectPasswordErrorMessage(IncorrectPasswordException unf) {
+		JSONObject obj = new JSONObject();
+		obj.put("error", "true");
+		obj.put("message", unf.getMessage());
+		return ResponseEntity.ok().body(obj);
+	}
+
+	@ExceptionHandler(UserNotFoundException.class)
+	public ResponseEntity<?> noUserErrorMessage(UserNotFoundException unf) {
+		JSONObject obj = new JSONObject();
+		obj.put("error", "true");
+		obj.put("message", unf.getMessage());
+		return ResponseEntity.ok().body(obj);
+	}
+
+	@ExceptionHandler(UserAlreadyExistException.class)
+	public ResponseEntity<?> userAlreadyErrorMessage(UserAlreadyExistException unf) {
+		JSONObject obj = new JSONObject();
+		obj.put("error", "true");
+		obj.put("message", unf.getMessage());
+		return ResponseEntity.ok().body(obj);
+	}
 
 }
