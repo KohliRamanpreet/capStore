@@ -41,12 +41,13 @@ public class ProductService implements ProductServiceInterface {
 
 	// Returns products of specific category and discount
 	@Override
-	public List<Product> specificDiscountProducts(Integer discount) {
-		List<Product> allProducts = productRepository.findByDiscount(discount);
+	public List<Product> specificDiscountProducts(String discount) {
+		int a=Integer.parseInt(discount);
+		List<Product> allProducts = productRepository.findByDiscount(a);
 		List<Product> productList = allProducts.stream().map((customer) -> {
 			return customer;
 		}).collect(Collectors.toList());
-
+		System.out.println("HIII product"+a);
 		return productList;
 
 	}

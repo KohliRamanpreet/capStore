@@ -18,14 +18,15 @@ export class ProductPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.prod = JSON.parse(this._capstoreService.getCurrentProductPage());
+    console.log(this.prod[0]+this.prod[1]);
     if (this.prod == "All Products")
       this._capstoreService.getAllProduct().subscribe(prod => this.product = prod);
-    else if (this.prod == "10%" || this.prod == "20%" || this.prod == "30%") {
-      console.log(this.prod);
-      this.p = this.prod[0] + this.prod[1];
-      console.log(this.p);
-      this._capstoreService.getDiscountedProduct(this.p).subscribe(prod => this.product = prod);
-    }
+      else if (this.prod == "10%" || this.prod == "20%" || this.prod == "30%") {
+        console.log(this.prod);
+        this.p = this.prod[0] + this.prod[1];
+        console.log(this.p);
+        this._capstoreService.getDiscountedProduct(this.p).subscribe(prod => this.product = prod);
+      }
     else
       this._capstoreService.getSpecificProduct(this.prod)
         .subscribe(prod => this.product = prod);
@@ -34,6 +35,8 @@ export class ProductPageComponent implements OnInit {
     console.log(event.target.innerHTML);
     localStorage.removeItem("product");
     this._capstoreService.setCurrentProductPage(event.target.innerHTML);
+    this.router.routeReuseStrategy.shouldReuseRoute=()=>false;
+    this.router.onSameUrlNavigation='reload';
     this.router.navigate(['/productpage']);
   }
 

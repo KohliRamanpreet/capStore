@@ -71,7 +71,7 @@ export class CapstoreService {
   }
   public getDiscountedProduct(prod): Observable<Product[]> {
     console.log(JSON.parse(this.getCurrentProductPage()));
-    return this.http.get<Product[]>(this.baseUrl + '/  discountcategory/' + prod);
+    return this.http.get<Product[]>(this.baseUrl + '/discountcategory/' + prod);
   }
 
 

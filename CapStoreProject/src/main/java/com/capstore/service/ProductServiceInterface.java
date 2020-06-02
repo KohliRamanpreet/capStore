@@ -9,7 +9,7 @@ import com.capstore.model.Product;
 public interface ProductServiceInterface {
 	public List<Product> allProductsList();
 	public List<Product> specificCategoryProducts(String category);
-	public List<Product> specificDiscountProducts(Integer discount);
+	public List<Product> specificDiscountProducts(String discount);
 	public List<Product> searchProducts(String category);
 	/*
 	 * public List<Product> sortAsc(); public List<Product> sortDesc(); public

@@ -5,14 +5,12 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
 import com.capstore.model.ConfirmationToken;
 import com.capstore.model.CustomerDetails;
 import com.capstore.model.MerchantDetails;
 import com.capstore.repository.ConfirmationTokenRepository;
 import com.capstore.repository.CustomerRepository;
 import com.capstore.repository.MerchantRepository;
-
 @Service
 public class EmailSenderService {
 	@Autowired

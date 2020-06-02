@@ -95,7 +95,7 @@ public class UserAccount {
 
 	// Product data based on discount
 	@GetMapping(value = "/discountcategory/{discountPercent}")
-	public List<Product> getDiscountProducts(@PathVariable("discountPercent") Integer discount) {
+	public List<Product> getDiscountProducts(@PathVariable("discountPercent") String discount) {
 
 		return productService.specificDiscountProducts(discount);
 	}
